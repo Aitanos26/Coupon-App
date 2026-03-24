@@ -1,0 +1,442 @@
+/* =============== */
+/* VIBRANT YET SOFT PALLET */
+/* =============== */
+
+:root {
+  --bg: #f8f4ff;
+  --bubble: #fde7ff;
+  --bg-light: #f7f7f7;
+
+  --cat-1: #ff6b9d;   /* Date e momenti insieme */
+  --cat-2: #ff9b50;   /* Gesti quotidiani teneri */
+  --cat-3: #50c878;   /* Sfide e giochi leggeri */
+  --cat-4: #50b3e8;   /* Destinazioni di cura e relax */
+  --cat-5: #f1948a;   /* Attività fuori casa */
+  --cat-6: #d670de;   /* Esperienze di intimità */
+
+  /* Varianti chiare per sfondi carte */
+  --cat-1-bg: #ffe8f2;
+  --cat-2-bg: #ffedd1;
+  --cat-3-bg: #e0ffe8;
+  --cat-4-bg: #e0f4ff;
+  --cat-5-bg: #ffe0e0;
+  --cat-6-bg: #f7e0ff;
+
+  --text: #404040;
+  --text-light: #777;
+  --border: #ddd;
+  --border-light: #eee;
+
+  --btn-primary: #f473b9;
+  --btn-secondary: #54b4eb;
+  --btn-tertiary: #6edccb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  padding: 12px;
+}
+
+/* =============== */
+/* LAYOUT PRINCIPALE */
+/* =============== */
+
+.app {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 12px 0;
+}
+
+.app h1 {
+  text-align: center;
+  margin: 16px 0 28px 0;
+  font-size: 1.3em;
+  font-weight: 500;
+  color: #444;
+}
+
+/* =============== */
+/* SCHERMATA INIZIALE: MODALITÀ */
+/* =============== */
+
+.mode-select {
+  background: var(--bubble);
+  border-radius: 18px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+  border: 1px solid var(--border);
+}
+
+.mode-select p {
+  margin-bottom: 16px;
+  font-size: 0.95em;
+  color: var(--text-light);
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mode-btn {
+  font-size: 0.95em;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.mode-btn:focus {
+  outline: none;
+}
+
+/* Varianti colori */
+.mode-btn:nth-child(1) {
+  background: linear-gradient(135deg, #f473b9, #ff9ea8);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.mode-btn:nth-child(1):hover,
+.mode-btn:nth-child(1):active {
+  filter: brightness(0.92);
+  transform: scale(0.98);
+}
+
+.mode-btn:nth-child(2) {
+  background: linear-gradient(135deg, #54b4eb, #8bdcf3);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.mode-btn:nth-child(2):hover,
+.mode-btn:nth-child(2):active {
+  filter: brightness(0.92);
+  transform: scale(0.98);
+}
+
+.mode-btn span:first-child {
+  font-size: 1.25em;
+}
+
+.mode-select .info {
+  margin-top: 18px;
+  font-size: 0.85em;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* =============== */
+/*  SEZIONE “CASUALE”  */
+/* =============== */
+
+#randomMode {
+  padding-top: 10px;
+}
+
+.random-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.random-header h2 {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.back-btn {
+  font-size: 0.85em;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 12px;
+  background: #f0f0f0;
+  color: #555;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.back-btn:active {
+  transform: scale(0.96);
+}
+
+/* ================= */
+/* RISULTATO & REINTENTO */
+/* ================= */
+
+.coupon-result {
+  background: white;
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.coupon-result h3 {
+  margin-bottom: 8px;
+  font-size: 1.05em;
+  color: var(--text);
+}
+
+.coupon-result p {
+  margin-bottom: 10px;
+  font-size: 0.95em;
+  line-height: 1.45;
+}
+
+/* REINTENTO con stile + emoji */
+.retry-section {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 16px;
+  background: #ffe0e0;
+  color: #c93a3a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retry-btn:active {
+  transform: translateY(1px);
+  background: #ffcccb;
+}
+
+.retry-btn span:nth-child(1) {
+  font-size: 1.15em;
+}
+
+.confirm-btn {
+  font-size: 0.9em;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #e6ffeb;
+  color: #2e7d32;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirm-btn:active {
+  transform: translateY(1px);
+  background: #d4ffdc;
+}
+
+#noCouponRandom {
+  text-align: center;
+  padding: 16px;
+  background: #fff7e0;
+  border-radius: 14px;
+  font-size: 0.9em;
+  color: #775500;
+  border: 1px solid #ffd599;
+  margin-top: 8px;
+}
+
+/* =============== */
+/*  MANUALE: CARTE DA SWIPE  */
+/* =============== */
+
+#manualMode {
+  padding-top: 12px;
+}
+
+.manual-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.manual-header h2 {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Contenitore delle carte */
+.card-container {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto 12px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+}
+
+/* Singola carta */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 3 / 4;
+  background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f0f0f0'/><rect x='40' y='0' width='20' height='30' fill='%23f9f9f9'/><rect x='30' y='60' width='40' height='10' fill='%23f9f9f9'/></svg>") 0 0/100% no-repeat;
+  border-radius: 20px;
+  padding: 18px 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transform: translateZ(0);
+
+  opacity: 0;
+  pointer-events: none;
+
+  /* Transizione quando la carta entra */
+  transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease;
+}
+
+/* Quando la carta è attiva */
+.card.active {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 10;
+}
+
+/* Titolo carta */
+.card h3 {
+  font-size: 1.15em;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Categoria (badge) */
+.card .category-badge {
+  font-size: 0.75em;
+  padding: 4px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Carte usate questo mese */
+.card.used {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Descrizione */
+.card p {
+  font-size: 0.88em;
+  line-height: 1.45;
+  color: #555;
+  margin: 0;
+}
+
+/* Effetto shadow sotto la carta successiva (simula stack) */
+.card + .card {
+  margin-top: -150px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.11);
+}
+
+/* =============== */
+/*  MESSAGGIO “NESSUN COUPON” MANUALE  */
+/* =============== */
+
+#noCouponManual {
+  margin-top: 12px;
+  text-align: center;
+  padding: 16px;
+  background: #fff0f0;
+  border-radius: 14px;
+  font-size: 0.9em;
+  color: #880000;
+  border: 1px solid #ffcdd2;
+}
+
+/* =============== */
+/*  BOTTONI DI NAVIGAZIONE IN MANUALE (OPZIONALI, se vuoi aggiungerli dopo) */
+/* =============================== */
+
+.card-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.card-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.85em;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.card-btn.left {
+  background: #ffe0e0;
+  color: #c93a3a;
+}
+
+.card-btn.right {
+  background: #e6ffeb;
+  color: #2e7d32;
+}
+
+/* =============== */
+/*  CLASSI DI VISIBILITÀ  */
+/* =============== */
+
+.hidden {
+  display: none !important;
+}
+
+.shown {
+  display: block !important;
+}
+
+/* ================= */
+/*  FEEDBACK DI CONFERMA */
+/* ================= */
+
+.coupon-confirmation {
+  margin-top: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.85em;
+  background: #e6ffeb;
+  color: #2e7d32;
+  text-align: center;
+  border: 1px solid #d4ffdc;
+}

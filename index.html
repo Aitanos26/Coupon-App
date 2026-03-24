@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libretto di Coupon per Te</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>Il mio libretto di coupon per te</h1>
+
+    <!-- Schermata iniziale: scelta modalità -->
+    <section id="modeSelect" class="mode-select">
+      <p>Vuoi scegliere il coupon di oggi in modo:</p>
+
+      <div class="mode-buttons">
+        <button id="modeRandom" class="mode-btn">
+          <span>🎲</span>
+          <span>Casuale</span>
+        </button>
+        <button id="modeManual" class="mode-btn">
+          <span>🃏</span>
+          <span>Carte da swipe</span>
+        </button>
+      </div>
+
+      <p class="info">
+        In entrambi i modi, ogni coupon può essere usato<br>
+        solo <strong>una volta al mese</strong>.
+      </p>
+    </section>
+
+    <!-- 1. Modo CASUALE -->
+    <section id="randomMode" class="hidden">
+      <div class="random-header">
+        <h2>Coupon di oggi (casuale)</h2>
+        <button id="backToModeSelect" class="back-btn">Torna indietro</button>
+      </div>
+
+      <section id="randomResult" class="coupon-result hidden">
+        <h3>Coupon estratto</h3>
+        <p id="couponTitle"></p>
+        <p id="couponDesc"></p>
+        <div class="retry-section">
+          <button id="retryRandom" class="retry-btn">
+            <span>🔄</span>
+            <span>Ritenta</span>
+            <span id="retryCount">2</span>
+          </button>
+          <button id="confirmCoupon" class="confirm-btn">Conferma scelta</button>
+        </div>
+      </section>
+
+      <section id="noCouponRandom" class="no-coupon hidden">
+        <p>Nessun coupon disponibile questo mese. Torna tra qualche giorno.</p>
+      </section>
+    </section>
+
+    <!-- 2. Modo MANUALE (carte da swipe) -->
+    <section id="manualMode" class="hidden">
+      <div class="manual-header">
+        <h2>Carte dei coupon</h2>
+        <button id="backToModeSelectManual" class="back-btn">← Torna indietro</button>
+      </div>
+
+      <div id="cardContainer" class="card-container">
+        <!-- Carte inserite dinamicamente da JS -->
+      </div>
+
+      <section id="noCouponManual" class="no-coupon hidden">
+        <p>Tutti i coupon di questo mese sono già stati usati. Puoi ritentare il mese prossimo.</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
