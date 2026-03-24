@@ -17,7 +17,7 @@ const retryBtn = document.getElementById("retryRandom");
 const retryCountEl = document.getElementById("retryCount");
 const confirmCouponBtn = document.getElementById("confirmCoupon");
 
-const cardContainer = document.getElementById("cardContainer");
+const couponList = document.getElementById("couponList");
 const noCouponManual = document.getElementById("noCouponManual");
 
 // ============= 1. Lista Coupon =============
@@ -32,7 +32,7 @@ const coupons = [
   {
     id: 2,
     title: "Passeggiata stellata in spiaggia",
-    desc: "Passeggiata serale in spiaggia sotto le stelle, mano nella mano, senza orari.",
+    desc: "Passeggiata seriale in spiaggia sotto le stelle, mano nella mano, senza orari.",
     category: "Date e momenti insieme",
   },
   {
@@ -140,7 +140,7 @@ const coupons = [
   {
     id: 20,
     title: "Serata sensoriale",
-    desc: "Luce soffusa, musica morbida e tocchi lenti e attenti, solo ciò che ti fa sentire a tuo agio.",
+    desc: "Luce soffusa, musica morbida e tocqui lenti e attenti, solo ciò che ti fa sentire a tuo agio.",
     category: "Esperienze di intimità",
   },
   {
@@ -152,7 +152,7 @@ const coupons = [
   {
     id: 22,
     title: "Gioco dita",
-    desc: "Un momento in cui ti lasci guidare dalle mie mani: tocchi lenti e crescenti, sempre entro i tuoi limiti.",
+    desc: "Un momento in cui ti lasci guidare dalle mie mani: tocqui lenti e crescenti, sempre entro i tuoi limiti.",
     category: "Esperienze di intimità",
   },
   {
@@ -222,7 +222,7 @@ function getCouponsAvailable() {
   return coupons.filter((c) => !wasRedeemedThisMonth(c.id));
 }
 
-// ============= 4. Modo CASUALE ==============
+// ============= 4. Modo CASUALE (lasciato identico) ==============
 
 let currentRandomCoupon = null;
 let randomAttempts = 0;
@@ -297,59 +297,46 @@ backToModeSelect.addEventListener("click", () => {
   modeSelect.classList.add("shown");
 });
 
-// ============= 5. Modo MANUALE — CARTE DA SWIPE  ==============
+// ============= 5. Modo MANUALE — LISTA COMPLETA DI COUPON  ==============
 
-let cardList = [];
-let currentCardIndex = 0;
-
-function getCategoryClass(category) {
-  const num = categoryColors[category] || "1";
-  return "cat-" + num;
-}
-
-// Crea una carta per un coupon
-function createCardElement(coupon) {
-  const card = document.createElement("div");
-  card.className = "card";
-  card.dataset.couponId = coupon.id;
-
-  // Se è già usato questo mese
-  if (wasRedeemedThisMonth(coupon.id)) {
-    card.classList.add("used");
-  }
-
-  const colorKey = categoryColors[coupon.category] || "1";
-  card.style.setProperty("--card-bg", `var(--cat-${colorKey}-bg)`);
-  card.style.setProperty("--card-border", `var(--cat-${colorKey})`);
-  card.style.setProperty("--card-text", `var(--text)`);
-
-  // Contenuto carta
-  const inner = `
-    <h3>${coupon.title}</h3>
-    <p>${coupon.desc}</p>
-    <span class="category-badge" style="background: var(--cat-${colorKey}); color: #fff;">
-      ${coupon.category}
-    </span>
-  `;
-  card.innerHTML = inner;
-
-  return card;
-}
-
-// Inizializza le carte e mostra la prima
-function setupCards() {
+function renderCouponList() {
   const available = getCouponsAvailable();
-  // const history = getHistory();  // usata in createCardElement()
+  const history = getHistory();
 
-  // Pulisci container
-  cardContainer.innerHTML = "";
+  // Pulisci lista
+  couponList.innerHTML = "";
 
-  // Crea una carta per ogni coupon disponibile
-  cardList = [];
+  // Raggruppa per categoria se vuoi, o metti in ordine lineare
   available.forEach((coupon) => {
-    const card = createCardElement(coupon);
-    cardContainer.appendChild(card);
-    cardList.push(card);
+    const item = document.createElement("div");
+    item.className = "coupon-item";
+    item.dataset.couponId = coupon.id;
+
+    const isUsed = !!history[coupon.id];
+    const hasBeenUsedThisMonth = isUsed && wasRedeemedThisMonth(coupon.id);
+
+    if (hasBeenUsedThisMonth) {
+      item.classList.add("used");
+    } else {
+      item.classList.add("clickable");
+    }
+
+    const colorKey = categoryColors[coupon.category] || "1";
+    const bg = `var(--cat-${colorKey}-bg)`;
+    const border = `var(--cat-${colorKey})`;
+    item.style.setProperty("--card-bg", bg);
+    item.style.setProperty("--card-border", border);
+
+    const inner = `
+      <h3>${coupon.title}</h3>
+      <p>${coupon.desc}</p>
+      <span class="category-badge" style="background: var(--cat-${colorKey}); color: #fff;">
+        ${coupon.category}
+      </span>
+    `;
+    item.innerHTML = inner;
+
+    couponList.appendChild(item);
   });
 
   // Se non ci sono coupon disponibili
@@ -360,83 +347,45 @@ function setupCards() {
     noCouponManual.classList.add("hidden");
     noCouponManual.classList.remove("shown");
   }
-
-  // Mostra la prima carta (navigazione da qui in poi)
-  showCurrentCard();
 }
 
-// Mostra la carta corrente, nasconde le altre
-function showCurrentCard() {
-  if (cardList.length === 0) return;
-  if (currentCardIndex < 0) currentCardIndex = 0;
-  if (currentCardIndex >= cardList.length) currentCardIndex = cardList.length - 1;
+// Gestisci il clic su un coupon nella lista
+couponList.addEventListener("click", (ev) => {
+  const item = ev.target.closest(".coupon-item");
+  if (!item || item.classList.contains("used")) return;
 
-  cardList.forEach((c) => {
-    c.classList.remove("active");
-  });
-
-  const card = cardList[currentCardIndex];
-  card.classList.add("active");
-}
-
-// Sposta alla prossima carta (se esiste)
-function nextCard() {
-  if (currentCardIndex < cardList.length - 1) {
-    currentCardIndex++;
-    showCurrentCard();
-  }
-}
-
-// (Opzionale) Sposta alla carta precedente
-function prevCard() {
-  if (currentCardIndex > 0) {
-    currentCardIndex--;
-    showCurrentCard();
-  }
-}
-
-// Evento: clic su carta per confermare (se non è usata)
-cardContainer.addEventListener("click", (ev) => {
-  const card = ev.target.closest(".card");
-  if (!card || card.classList.contains("used")) return;
-
-  const id = parseInt(card.dataset.couponId, 10);
+  const id = parseInt(item.dataset.couponId, 10);
   const coupon = coupons.find((c) => c.id === id);
   if (!coupon) return;
 
-  // Conferma e segna come usato
+  // Conferma il coupon
   markCouponAsRedeemed(id);
 
-  // Cambia aspetto visual
-  card.classList.add("used");
-  const elems = card.querySelectorAll("*");
+  // Stato visivo
+  item.classList.add("used");
+  item.classList.add("confirmed");
+  const elems = item.querySelectorAll("*");
   elems.forEach((el) => {
-    el.style.opacity = "0.55";
+    if (el !== item.querySelector(".coupon-confirmation")) {
+      el.style.opacity = "0.65";
+    }
   });
 
   // Aggiungi feedback di conferma
   const confirmation = document.createElement("div");
   confirmation.className = "coupon-confirmation";
   confirmation.textContent = "Coupon scelto! ✨";
-  card.appendChild(confirmation);
+  item.appendChild(confirmation);
 
   // Rimuovi feedback dopo 2 secondi
   setTimeout(() => {
-    if (card.contains(confirmation)) {
-      card.removeChild(confirmation);
+    if (item.contains(confirmation)) {
+      item.removeChild(confirmation);
     }
   }, 2000);
-
-  // Dopo aver confermato, vai alla prossima carta (se esiste)
-  nextCard();
 });
 
-// Eventi di navigazione (se voglio aggiungere bottoni "Avanti" / "Indietro" manuali in futuro)
-// es.:
-// document.getElementById("btnNext").addEventListener("click", nextCard);
-// document.getElementById("btnPrev").addEventListener("click", prevCard);
-
-// ============= 6. Inizializzazione globale ==============
+// ============= 6. Inizializzazione e gestione modalità ==============
 
 // Nascondi le sezioni “secondarie” all’avvio
 randomMode.classList.add("hidden");
@@ -451,13 +400,13 @@ modeRandomBtn.addEventListener("click", () => {
   setupRandomMode();
 });
 
-// Scegli modalità “manuale” (carte da swipe)
+// Scegli modalità “manuale” (lista completa)
 modeManualBtn.addEventListener("click", () => {
   modeSelect.classList.add("hidden");
   modeSelect.classList.remove("shown");
   manualMode.classList.remove("hidden");
   manualMode.classList.add("shown");
-  setupCards();
+  renderCouponList();
 });
 
 // Torna indietro a schermata iniziale da modo manuale
