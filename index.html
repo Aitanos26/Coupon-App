@@ -57,15 +57,22 @@
       </section>
     </section>
 
-    <!-- 2. Modo MANUALE (carte da swipe) -->
+    <!-- 2. Modo MANUALE — SWIPE (carte a pila) -->
     <section id="manualMode" class="hidden">
       <div class="manual-header">
-        <h2>Carte dei coupon</h2>
+        <h2>Carte da swipe</h2>
         <button id="backToModeSelectManual" class="back-btn">← Torna indietro</button>
       </div>
 
+      <!-- Contenitore delle carte (in pila) -->
       <div id="cardContainer" class="card-container">
         <!-- Carte inserite dinamicamente da JS -->
+      </div>
+
+      <!-- (Opzionale) bottoni di navigazione per vedere come dovrebbe funzionare lo swipe) -->
+      <div class="card-nav hidden">
+        <button id="prevBtn" class="card-btn left">← Precedente</button>
+        <button id="nextBtn" class="card-btn right">Successiva →</button>
       </div>
 
       <section id="noCouponManual" class="no-coupon hidden">
