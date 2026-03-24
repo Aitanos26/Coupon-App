@@ -1,13 +1,12 @@
 /* =============== */
-/*  PALETTE VIVACI E PASTELLO  */
+/* VIBRANT YET SOFT PALLET */
 /* =============== */
 
 :root {
-  --bg: #f5f0ff;
-  --bubble: #f5eaff;
+  --bg: #f8f4ff;
+  --bubble: #fde7ff;
   --bg-light: #f7f7f7;
 
-  /* Categorie: colori vivaci ma morbidi */
   --cat-1: #ff6b9d;   /* Date e momenti insieme */
   --cat-2: #ff9b50;   /* Gesti quotidiani teneri */
   --cat-3: #50c878;   /* Sfide e giochi leggeri */
@@ -15,7 +14,7 @@
   --cat-5: #f1948a;   /* Attività fuori casa */
   --cat-6: #d670de;   /* Esperienze di intimità */
 
-  /* Sfondi più chiari basati su categoria */
+  /* Varianti chiare per sfondi carte */
   --cat-1-bg: #ffe8f2;
   --cat-2-bg: #ffedd1;
   --cat-3-bg: #e0ffe8;
@@ -31,9 +30,6 @@
   --btn-primary: #f473b9;
   --btn-secondary: #54b4eb;
   --btn-tertiary: #6edccb;
-
-  /* Transizione card */
-  --card-transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 * {
@@ -51,7 +47,7 @@ body {
 }
 
 /* =============== */
-/*  LAYOUT PRINCIPALE  */
+/* LAYOUT PRINCIPALE */
 /* =============== */
 
 .app {
@@ -69,7 +65,7 @@ body {
 }
 
 /* =============== */
-/*  SCHERMATA INIZIALE: MODALITÀ  */
+/* SCHERMATA INIZIALE: MODALITÀ */
 /* =============== */
 
 .mode-select {
@@ -105,13 +101,14 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  transition: transform var(--card-transition), box-shadow var(--card-transition), filter 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .mode-btn:focus {
   outline: none;
 }
 
+/* Varianti colori */
 .mode-btn:nth-child(1) {
   background: linear-gradient(135deg, #f473b9, #ff9ea8);
   color: #fff;
@@ -184,7 +181,7 @@ body {
 }
 
 /* ================= */
-/*  RISULTATO & REINTENTO  */
+/* RISULTATO & REINTENTO */
 /* ================= */
 
 .coupon-result {
@@ -208,6 +205,7 @@ body {
   line-height: 1.45;
 }
 
+/* REINTENTO con stile + emoji */
 .retry-section {
   display: flex;
   gap: 12px;
@@ -266,7 +264,7 @@ body {
 }
 
 /* =============== */
-/*  MODALITÀ MANUALE - CARTE DA SWIPE  */
+/*  MANUALE: CARTE DA SWIPE  */
 /* =============== */
 
 #manualMode {
@@ -286,11 +284,11 @@ body {
   color: var(--text);
 }
 
-/* Contenitore carte (stack Tinder‑style) */
+/* Contenitore delle carte */
 .card-container {
   position: relative;
   max-width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 12px;
   min-height: 320px;
   display: flex;
   flex-direction: column;
@@ -298,14 +296,13 @@ body {
   padding: 0 10px;
 }
 
-/* Singola carta (posizionata nella stack) */
+/* Singola carta */
 .card {
   position: relative;
-  z-index: 1;
-
   width: 100%;
   max-width: 400px;
   aspect-ratio: 3 / 4;
+  background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f0f0f0'/><rect x='40' y='0' width='20' height='30' fill='%23f9f9f9'/><rect x='30' y='60' width='40' height='10' fill='%23f9f9f9'/></svg>") 0 0/100% no-repeat;
   border-radius: 20px;
   padding: 18px 16px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
@@ -314,17 +311,19 @@ body {
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  transform: translateZ(0);
 
-  background: #fff; /* sarà sovrascritto via --card-bg nell'JS */
-  color: var(--card-text);
+  opacity: 0;
+  pointer-events: none;
 
-  transform: translateY(0) translateX(0) rotate(0deg);
-  transition: transform var(--card-transition), box-shadow 0.2s ease, opacity 0.2s ease;
-  cursor: grab;
+  /* Transizione quando la carta entra */
+  transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.2s ease;
 }
 
-/* Aspetto "attivo" (quando è in primo piano) */
+/* Quando la carta è attiva */
 .card.active {
+  opacity: 1;
+  pointer-events: all;
   z-index: 10;
 }
 
@@ -337,7 +336,7 @@ body {
   color: #333;
 }
 
-/* Categoria (badge colorato per categoria) */
+/* Categoria (badge) */
 .card .category-badge {
   font-size: 0.75em;
   padding: 4px 8px;
@@ -349,7 +348,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Stato: carta già usata questo mese */
+/* Carte usate questo mese */
 .card.used {
   opacity: 0.55;
   cursor: not-allowed;
@@ -364,61 +363,15 @@ body {
   margin: 0;
 }
 
-/* Effetto stack: carte "sotto" quella attiva */
+/* Effetto shadow sotto la carta successiva (simula stack) */
 .card + .card {
   margin-top: -150px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.11);
-  pointer-events: none;
-  opacity: 0.7;
-  transform: scale(0.95) translateY(40px);
-}
-
-/* Ultima carta in fondo alla stack, molto piccola */
-.card + .card + .card {
-  margin-top: -120px;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.09);
-  transform: scale(0.9) translateY(60px) rotate(-2deg);
 }
 
 /* =============== */
-/*  BOTTONI DI NAVIGAZIONE (SWIPE‑LIKE)  */
-/* =============================== */
-
-.card-nav {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 14px;
-  margin-bottom: 4px;
-}
-
-.card-btn {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.85em;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  transition: transform 0.15s ease;
-}
-
-.card-btn:active {
-  transform: scale(0.96);
-}
-
-.card-btn.left {
-  background: #ffe0e0;
-  color: #c93a3a;
-}
-
-.card-btn.right {
-  background: #e6ffeb;
-  color: #2e7d32;
-}
-
-/* ================= */
 /*  MESSAGGIO “NESSUN COUPON” MANUALE  */
-/* =============================== */
+/* =============== */
 
 #noCouponManual {
   margin-top: 12px;
@@ -429,6 +382,36 @@ body {
   font-size: 0.9em;
   color: #880000;
   border: 1px solid #ffcdd2;
+}
+
+/* =============== */
+/*  BOTTONI DI NAVIGAZIONE IN MANUALE (OPZIONALI, se vuoi aggiungerli dopo) */
+/* =============================== */
+
+.card-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.card-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.85em;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.card-btn.left {
+  background: #ffe0e0;
+  color: #c93a3a;
+}
+
+.card-btn.right {
+  background: #e6ffeb;
+  color: #2e7d32;
 }
 
 /* =============== */
@@ -444,12 +427,12 @@ body {
 }
 
 /* ================= */
-/*  FEEDBACK DI CONFERMA SU CARTA  */
-/* =============================== */
+/*  FEEDBACK DI CONFERMA */
+/* ================= */
 
 .coupon-confirmation {
-  margin-top: 8px;
-  padding: 8px 12px;
+  margin-top: 10px;
+  padding: 9px 12px;
   border-radius: 8px;
   font-size: 0.85em;
   background: #e6ffeb;
