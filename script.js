@@ -63,7 +63,7 @@ const coupons = [
     id: 7,
     title: "Colonna sonora della giornata",
     desc: "Mandami una canzone o una playlist che ti rappresenta, la rendo la tua colonna sonora del giorno.",
-    category: "Gesti quotidiani tenerenguin",
+    category: "Gesti quotidiani teneri",
   },
   {
     id: 8,
@@ -336,10 +336,10 @@ function createCardElement(coupon) {
   return card;
 }
 
-// Inizializza le carte
+// Inizializza le carte e mostra la prima
 function setupCards() {
   const available = getCouponsAvailable();
-  const history = getHistory();
+  // const history = getHistory();  // usata in createCardElement()
 
   // Pulisci container
   cardContainer.innerHTML = "";
@@ -361,27 +361,41 @@ function setupCards() {
     noCouponManual.classList.remove("shown");
   }
 
-  // Mostra la prima carta
-  showCard(0);
+  // Mostra la prima carta (navigazione da qui in poi)
+  showCurrentCard();
 }
 
-// Mostra la carta con indice specifico
-function showCard(index) {
-  if (index < 0 || index >= cardList.length) return;
+// Mostra la carta corrente, nasconde le altre
+function showCurrentCard() {
+  if (cardList.length === 0) return;
+  if (currentCardIndex < 0) currentCardIndex = 0;
+  if (currentCardIndex >= cardList.length) currentCardIndex = cardList.length - 1;
 
-  // Nascondi tutte le carte
   cardList.forEach((c) => {
     c.classList.remove("active");
   });
 
-  // Mostra la carta corrente
-  const card = cardList[index];
+  const card = cardList[currentCardIndex];
   card.classList.add("active");
-
-  currentCardIndex = index;
 }
 
-// Clicca su carta per confermare (solo se non è usata)
+// Sposta alla prossima carta (se esiste)
+function nextCard() {
+  if (currentCardIndex < cardList.length - 1) {
+    currentCardIndex++;
+    showCurrentCard();
+  }
+}
+
+// (Opzionale) Sposta alla carta precedente
+function prevCard() {
+  if (currentCardIndex > 0) {
+    currentCardIndex--;
+    showCurrentCard();
+  }
+}
+
+// Evento: clic su carta per confermare (se non è usata)
 cardContainer.addEventListener("click", (ev) => {
   const card = ev.target.closest(".card");
   if (!card || card.classList.contains("used")) return;
@@ -412,28 +426,17 @@ cardContainer.addEventListener("click", (ev) => {
       card.removeChild(confirmation);
     }
   }, 2000);
+
+  // Dopo aver confermato, vai alla prossima carta (se esiste)
+  nextCard();
 });
 
-// Eventi tasti/pannello (se vuoi aggiungere bottoni “prev/next” in seguito)
-// Funzioni di utility:
-function nextCard() {
-  if (currentCardIndex < cardList.length - 1) {
-    showCard(currentCardIndex + 1);
-  }
-}
-
-function prevCard() {
-  if (currentCardIndex > 0) {
-    showCard(currentCardIndex - 1);
-  }
-}
-
-// BOTTONI FUTURI (es. per aggiungere swipe‑buttons)
+// Eventi di navigazione (se voglio aggiungere bottoni "Avanti" / "Indietro" manuali in futuro)
 // es.:
-// document.getElementById("prevBtn").addEventListener("click", prevCard);
-// document.getElementById("nextBtn").addEventListener("click", nextCard);
+// document.getElementById("btnNext").addEventListener("click", nextCard);
+// document.getElementById("btnPrev").addEventListener("click", prevCard);
 
-// ============= 6. Inizializzazione e gestione modalità ==============
+// ============= 6. Inizializzazione globale ==============
 
 // Nascondi le sezioni “secondarie” all’avvio
 randomMode.classList.add("hidden");
