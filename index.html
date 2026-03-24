@@ -20,8 +20,8 @@
           <span>Casuale</span>
         </button>
         <button id="modeManual" class="mode-btn">
-          <span>🃏</span>
-          <span>Carte da swipe</span>
+          <span>📜</span>
+          <span>Lista completa</span>
         </button>
       </div>
 
@@ -31,7 +31,7 @@
       </p>
     </section>
 
-    <!-- 1. Modo CASUALE -->
+    <!-- 1. Modo CASUALE (esattamente come prima) -->
     <section id="randomMode" class="hidden">
       <div class="random-header">
         <h2>Coupon di oggi (casuale)</h2>
@@ -57,16 +57,16 @@
       </section>
     </section>
 
-    <!-- 2. Modo MANUALE (carte da swipe) -->
+    <!-- 2. Modo MANUALE — ELENCO COMPLETO DI COUPON -->
     <section id="manualMode" class="hidden">
       <div class="manual-header">
-        <h2>Carte dei coupon</h2>
+        <h2>Tutti i coupon disponibili</h2>
         <button id="backToModeSelectManual" class="back-btn">← Torna indietro</button>
       </div>
 
-      <div id="cardContainer" class="card-container">
-        <!-- Carte inserite dinamicamente da JS -->
-      </div>
+      <section id="couponList" class="coupon-list">
+        <!-- Gli elementi li creerà script.js -->
+      </section>
 
       <section id="noCouponManual" class="no-coupon hidden">
         <p>Tutti i coupon di questo mese sono già stati usati. Puoi ritentare il mese prossimo.</p>
